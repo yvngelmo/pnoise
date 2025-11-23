@@ -1,8 +1,8 @@
-class whiteNoise
+class voronoiNoise
 { 
   float[][] value = new float[width][height];
   
-  whiteNoise(int seed)
+  voronoiNoise(int seed)
   {
     set(seed);
   }
