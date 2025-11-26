@@ -1,21 +1,28 @@
 class whiteNoise
 { 
+  boolean empty;
+  
   float[][] value = new float[width][height];
   
-  whiteNoise(int seed)
+  whiteNoise(boolean empty, int seed)
   {
-    set(seed);
+    set(empty, seed);
   }
 
-  void set(int seed)
+  void set(boolean setEmpty, int seed)
   {
-    randomSeed(seed);
+    empty = setEmpty;
     
-    for (int y=0; y<height; y++)
+    randomSeed(seed);
+    if(!empty)
     {
-      for (int x=0; x<width; x++)
+      randomSeed(seed);
+      for (int y=0; y<height; y++)
       {
-        value[x][y]=random(255);
+        for (int x=0; x<width; x++)
+        {
+          value[x][y]=random(255);
+        }
       }
     }
   }
