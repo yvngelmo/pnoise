@@ -1,6 +1,7 @@
 class voronoiNoise
 { 
   boolean empty;
+  int seed, pointAmt, scatterAmt;
   
   float[][] value = new float[width][height];
   
@@ -12,9 +13,12 @@ class voronoiNoise
     set(empty, seed, pointAmt, scatterAmt);
   }
 
-  void set(boolean setEmpty, int seed, int pointAmt, int scatterAmt)
+  void set(boolean setEmpty, int setSeed, int setPointAmt, int setScatterAmt)
   {
     empty = setEmpty;
+    seed = setSeed;
+    pointAmt = setPointAmt;
+    scatterAmt = setScatterAmt;
     
     if(!empty)
     {

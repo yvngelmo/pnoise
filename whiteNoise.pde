@@ -1,6 +1,7 @@
 class whiteNoise
 { 
   boolean empty;
+  int seed;
   
   float[][] value = new float[width][height];
   
@@ -9,9 +10,10 @@ class whiteNoise
     set(empty, seed);
   }
 
-  void set(boolean setEmpty, int seed)
+  void set(boolean setEmpty, int setSeed)
   {
     empty = setEmpty;
+    seed = setSeed;
     
     randomSeed(seed);
     if(!empty)

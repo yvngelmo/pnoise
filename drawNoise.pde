@@ -11,7 +11,7 @@ void drawNoise(float[][] val, float alpha)
 
 void drawStack() //16 layer auf jedem layer sollte nur eine textur sein, fängt niedrig an höhere werden drauf gerendert
 {
-  for(int i=0; i<16; i++)
+  for(int i=0; i<layers; i++)
   {
     if(!whiteList[i].empty)
     drawNoise(whiteList[i].value,alphaval[i]);

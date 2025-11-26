@@ -1,6 +1,7 @@
 class perlinNoise
 { 
   boolean empty;
+  int seed, rez;
   
   float[][] value = new float[width][height];
   float[][] vector;
@@ -13,9 +14,11 @@ class perlinNoise
     set(empty, seed,rez);
   }
   
-  void set(boolean setEmpty, int seed,int rez) //werte setzen in float grid
+  void set(boolean setEmpty, int setSeed,int setRez) //werte setzen in float grid
   {
     empty = setEmpty;
+    seed = setSeed;
+    rez = setRez;
     
     if(!empty)
     {
