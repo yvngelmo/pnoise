@@ -1,32 +1,48 @@
-void drawNoise(float[][] val, float alpha)
+void calcNoiseStackDraw()
 {
   for (int y=0; y<height; y++)
   {
     for (int x=0; x<width; x++)
     {
-      set(x,y,color(val[x][y],alpha));
+      col[x][y]=0; //col reset wenn neu gedrawed wird
+    }
+  }
+  
+  for(int i=0; i<layers; i++) //für jeden layer, der der enabled ist wird noise berechnet und dann wird die noise in calcCol gesendet
+  {
+    if(!whiteList[i].empty)
+    {
+      whiteList[i].set(false,whiteList[i].seed); //noise berechnen
+      calcCol(whiteList[i].value, i);
+    }
+    else if(!perlinList[i].empty)
+    {
+      perlinList[i].set(false,perlinList[i].seed,perlinList[i].rez); //noise berechnen
+      calcCol(perlinList[i].value, i);
+    }
+    else if(!voronoiList[i].empty)
+    {
+      voronoiList[i].set(false,voronoiList[i].seed,voronoiList[i].pointAmt,voronoiList[i].scatterAmt); //noise berechnen
+      calcCol(voronoiList[i].value, i);
+    }
+  }
+  
+  for (int y=0; y<height; y++)
+  {
+    for (int x=0; x<width; x++)
+    {
+      set(x,y,color(col[x][y])); //für jeden pixel wert von col drawen
     }
   }
 }
 
-void drawStack() // 16 layer auf jedem layer sollte nur eine textur sein, fängt niedrig an höhere werden drauf gerendert
+void calcCol(float[][] listVal, int i)
 {
-  for(int i=0; i<layers; i++)
+  for (int y=0; y<height; y++)
   {
-    if(!whiteList[i].empty)
+    for (int x=0; x<width; x++) //für jeden wert von col & input val
     {
-      whiteList[i].set(whiteList[i].empty,whiteList[i].seed); //set aktualisiert ausführen, also noise berechnen
-      drawNoise(whiteList[i].value,alphaval[i]);
-    }
-    else if(!perlinList[i].empty)
-    {
-      perlinList[i].set(perlinList[i].empty,perlinList[i].seed,perlinList[i].rez); //set aktualisiert ausführen, also noise berechnen
-      drawNoise(perlinList[i].value,alphaval[i]);
-    }
-    else if(!voronoiList[i].empty)
-    {
-      voronoiList[i].set(voronoiList[i].empty,voronoiList[i].seed,voronoiList[i].pointAmt,voronoiList[i].scatterAmt); //set aktualisiert ausführen, also noise berechnen
-      drawNoise(voronoiList[i].value,alphaval[i]);
+      col[x][y]=col[x][y]*(1-0.01*alphaval[i])+(listVal[x][y]*0.01*brightness[i])*0.01*alphaval[i]; //alte farbe*(1-opacity%)+(neue farbe*brightness%)*(opacity%)
     }
   }
 }

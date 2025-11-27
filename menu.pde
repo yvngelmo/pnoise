@@ -3,59 +3,63 @@ void drawMenu()
   if(menuHidden) 
   {
     fill(255);
-    rect(0,0,128,22);
+    rect(0,height-25,128,24);
+    
     fill(0);
-    text("show menu[H]", 6,16);
-
+    text("show menu[H]", 6,height-8);
   }
   else
   {
     fill(255);
     rect(0,0,width-1,262);
+    
     for(int i = 0; i<layers; i++)
-    {
-      content(i);
-    }
+    content(i);
+    
     fill(255);
-    rect(0,height-25,610,24);
+    rect(0,height-25,668,24);
+    
     fill(0);
-    text("select value with mouse, change with LMB / RMB, hide menu[H]", 6,height-8);
+    text("change value using corresponding cell with LMB / RMB, hide menu[H]", 6,height-8);
   }
 }
 
-void content(int i)
+void content(int i) //werte darstellen
 {  
   if(!whiteList[i].empty) //draw text&matrixSquares wenn layer whitenoise ist
   {
     fill(0);
-    text("disable[X] white[X] seed:"+whiteList[i].seed+"[+/-] alpha:"+alphaval[i]+"[+/-]", 6, 16+16*i);
+    text("enabled, white, seed:"+whiteList[i].seed+", brightness:"+brightness[i]+", alpha:"+alphaval[i], 6, 16+16*i);
     fill(255);
-    for(int v=0; v<4; v++)
+    
+    for(int v=0; v<5; v++)
     square(16*v,272+16*i,16);
   }
   
   else if(!perlinList[i].empty) //draw text&matrixSquares wenn layer perlinnoise ist
   {
     fill(0);
-    text("disable[X] perlin[X] seed:"+perlinList[i].seed+"[+/-] rez:"+perlinList[i].rez+"[+/-] alpha:"+alphaval[i]+"[+/-]", 6, 16+16*i);    
+    text("enabled, perlin, seed:"+perlinList[i].seed+", rez:"+perlinList[i].rez+", brightness:"+brightness[i]+", alpha:"+alphaval[i], 6, 16+16*i);    
     fill(255);
-    for(int v=0; v<5; v++)
+    
+    for(int v=0; v<6; v++)
     square(16*v,272+16*i,16);
   }
   
   else if(!voronoiList[i].empty) //draw text&matrixSquares wenn layer voronoinoise ist
   {
     fill(0);
-    text("disable[X] voronoi[X] seed:"+voronoiList[i].seed+"[+/-] dens:"+voronoiList[i].pointAmt+"[+/-] rand:"+voronoiList[i].scatterAmt+"[+/-] alpha:"+alphaval[i]+"[+/-]", 6, 16+16*i);
+    text("enabled, voronoi, seed:"+voronoiList[i].seed+", dens:"+voronoiList[i].pointAmt+", rand:"+voronoiList[i].scatterAmt+", brightness:"+brightness[i]+", alpha:"+alphaval[i], 6, 16+16*i);
     fill(255);
-    for(int v=0; v<6; v++)
+    
+    for(int v=0; v<7; v++)
     square(16*v,272+16*i,16);
   }
   
   else //draw text wenn layer leer ist
   {
     fill(0);
-    text("enable[X]", 6, 16+16*i);
+    text("disabled", 6, 16+16*i);
     fill(255);
     square(0,272+16*i,16);
   }
@@ -72,7 +76,7 @@ void selectionMatrix() //auf mousePressed callen: werte verändern
     valSelected = mouseX/16;
     
     //welcher wert soll geändert werden? + werte ändern
-    if(!whiteList[texSelected].empty&&valSelected<4) //werte: enabled, type, seed, alpha
+    if(!whiteList[texSelected].empty&&valSelected<5) //werte: enabled, type, seed, brightness, alpha
     {
       if(valSelected==0) disableLayer(texSelected);
       
@@ -81,10 +85,13 @@ void selectionMatrix() //auf mousePressed callen: werte verändern
       if(valSelected==2&&mouseButton==RIGHT) whiteList[texSelected].seed = whiteList[texSelected].seed-5;
       if(valSelected==2&&mouseButton==LEFT) whiteList[texSelected].seed = whiteList[texSelected].seed+5;
       
-      if(valSelected==3&&mouseButton==RIGHT&&alphaval[texSelected]>0) alphaval[texSelected] = alphaval[texSelected]-10;
-      if(valSelected==3&&mouseButton==LEFT&&alphaval[texSelected]<100) alphaval[texSelected] = alphaval[texSelected]+10;
+      if(valSelected==3&&mouseButton==RIGHT&&brightness[texSelected]>0) brightness[texSelected] = brightness[texSelected]-10;
+      if(valSelected==3&&mouseButton==LEFT&&brightness[texSelected]<100) brightness[texSelected] = brightness[texSelected]+10;
+      
+      if(valSelected==4&&mouseButton==RIGHT&&alphaval[texSelected]>0) alphaval[texSelected] = alphaval[texSelected]-10;
+      if(valSelected==4&&mouseButton==LEFT&&alphaval[texSelected]<100) alphaval[texSelected] = alphaval[texSelected]+10;
     }
-    else if(!perlinList[texSelected].empty&&valSelected<5) //werte: enabled, type, seed, rez, alpha
+    else if(!perlinList[texSelected].empty&&valSelected<6) //werte: enabled, type, seed, rez, brightness, alpha
     {
       if(valSelected==0) disableLayer(texSelected);
       
@@ -96,10 +103,13 @@ void selectionMatrix() //auf mousePressed callen: werte verändern
       if(valSelected==3&&mouseButton==RIGHT&&perlinList[texSelected].rez>1) perlinList[texSelected].rez = perlinList[texSelected].rez-1;
       if(valSelected==3&&mouseButton==LEFT) perlinList[texSelected].rez = perlinList[texSelected].rez+1;
       
-      if(valSelected==4&&mouseButton==RIGHT&&alphaval[texSelected]>0) alphaval[texSelected] = alphaval[texSelected]-10;
-      if(valSelected==4&&mouseButton==LEFT&&alphaval[texSelected]<100) alphaval[texSelected] = alphaval[texSelected]+10;
+      if(valSelected==4&&mouseButton==RIGHT&&brightness[texSelected]>0) brightness[texSelected] = brightness[texSelected]-10;
+      if(valSelected==4&&mouseButton==LEFT&&brightness[texSelected]<100) brightness[texSelected] = brightness[texSelected]+10;
+      
+      if(valSelected==5&&mouseButton==RIGHT&&alphaval[texSelected]>0) alphaval[texSelected] = alphaval[texSelected]-10;
+      if(valSelected==5&&mouseButton==LEFT&&alphaval[texSelected]<100) alphaval[texSelected] = alphaval[texSelected]+10;
     }
-    else if(!voronoiList[texSelected].empty&&valSelected<6) //werte: enabled, type, seed, pointAmt, scatterAmt, alpha
+    else if(!voronoiList[texSelected].empty&&valSelected<7) //werte: enabled, type, seed, pointAmt, scatterAmt, brightness, alpha
     {
       if(valSelected==0) disableLayer(texSelected);
       
@@ -114,22 +124,17 @@ void selectionMatrix() //auf mousePressed callen: werte verändern
       if(valSelected==4&&mouseButton==RIGHT&&voronoiList[texSelected].scatterAmt>0) voronoiList[texSelected].scatterAmt = voronoiList[texSelected].scatterAmt-10;
       if(valSelected==4&&mouseButton==LEFT) voronoiList[texSelected].scatterAmt = voronoiList[texSelected].scatterAmt+10;
       
-      if(valSelected==5&&mouseButton==RIGHT&&alphaval[texSelected]>0) alphaval[texSelected] = alphaval[texSelected]-10;
-      if(valSelected==5&&mouseButton==LEFT&&alphaval[texSelected]<100) alphaval[texSelected] = alphaval[texSelected]+10;
+      if(valSelected==5&&mouseButton==RIGHT&&brightness[texSelected]>0) brightness[texSelected] = brightness[texSelected]-10;
+      if(valSelected==5&&mouseButton==LEFT&&brightness[texSelected]<100) brightness[texSelected] = brightness[texSelected]+10;
+      
+      if(valSelected==6&&mouseButton==RIGHT&&alphaval[texSelected]>0) alphaval[texSelected] = alphaval[texSelected]-10;
+      if(valSelected==6&&mouseButton==LEFT&&alphaval[texSelected]<100) alphaval[texSelected] = alphaval[texSelected]+10;
     }
     else if(valSelected==0)//werte: enabled
     {
       enableLayerToWhite(texSelected);
     }
   }
-  
-  //println(texSelected,valSelected);
-}
-
-int changeVal(int input)
-{
-  int result = input;
-  return result;
 }
 
 void enableLayerToWhite(int layer)

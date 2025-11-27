@@ -1,3 +1,4 @@
+//base variablen
 int layers = 16;
 int texSelected;
 int valSelected;
@@ -8,10 +9,16 @@ whiteNoise[] whiteList;
 perlinNoise[] perlinList;
 voronoiNoise[] voronoiList;
 
+//array für noise bearbeitung
 int[] alphaval;
+int[] brightness;
+
+//array für kombinierte pixelval
+float[][] col;
 
 void setup()
 { 
+  //setup
   size(768,768);
   pixelDensity(1);
   strokeWeight(1);
@@ -20,51 +27,52 @@ void setup()
   courier = loadFont("CourierNewPS-BoldMT-16.vlw");
   textFont(courier);
 
+  //init empty stacks
   whiteList = new whiteNoise[layers];
   perlinList = new perlinNoise[layers];
   voronoiList = new voronoiNoise[layers];
+  
   alphaval = new int[layers];
+  brightness = new int[layers];
   
+  col = new float[width][height];
   
-  
-  //init empty stacks
   for(int i=0; i<layers; i++)
   {
+    //init textures & settings
     alphaval[i] = 100;
+    brightness[i] = 100;
     
     whiteList[i] = new whiteNoise(true,0);
-    perlinList[i] = new perlinNoise(true,0,10);
-    voronoiList[i] = new voronoiNoise(true,0,20,20);
+    perlinList[i] = new perlinNoise(true,0,20);
+    voronoiList[i] = new voronoiNoise(true,0,10,30);
   }
-  
   //first frame
   background(255);
-  drawStack();
+  calcNoiseStackDraw();
   drawMenu();
-}
-
-void draw()
-{
-  
 }
 
 void mousePressed()
 {
   
-  if(!menuHidden) selectionMatrix();
+  if(!menuHidden) selectionMatrix(); //gehoverten wert verändern
   
   //update frame
   background(255);
-  drawStack();
+  calcNoiseStackDraw();
   drawMenu();
 }
 
 void keyPressed()
 {
-  if(key=='h') menuHidden=!menuHidden;
+  if(key=='h') menuHidden=!menuHidden; //menu show/hide
   
   //update frame
   background(255);
-  drawStack();
+  calcNoiseStackDraw();
   drawMenu();
 }
+
+void draw()
+{}
