@@ -14,8 +14,6 @@ void setup()
 { 
   size(768,768);
   pixelDensity(1);
-  fill(0);
-  noFill();
   strokeWeight(1);
 
   PFont courier;
@@ -32,11 +30,11 @@ void setup()
   //init empty stacks
   for(int i=0; i<layers; i++)
   {
-    alphaval[i] = 255;
+    alphaval[i] = 100;
     
     whiteList[i] = new whiteNoise(true,0);
-    perlinList[i] = new perlinNoise(true,0,0);
-    voronoiList[i] = new voronoiNoise(true,0,0,0);
+    perlinList[i] = new perlinNoise(true,0,10);
+    voronoiList[i] = new voronoiNoise(true,0,20,20);
   }
   
   //first frame
@@ -52,15 +50,18 @@ void draw()
 
 void mousePressed()
 {
-  selectionMatrix();
+  
+  if(!menuHidden) selectionMatrix();
+  
+  //update frame
+  background(255);
+  drawStack();
+  drawMenu();
 }
 
 void keyPressed()
 {
-  if(key=='h')
-  {
-    menuHidden=!menuHidden;
-  }
+  if(key=='h') menuHidden=!menuHidden;
   
   //update frame
   background(255);

@@ -9,15 +9,24 @@ void drawNoise(float[][] val, float alpha)
   }
 }
 
-void drawStack() //16 layer auf jedem layer sollte nur eine textur sein, fängt niedrig an höhere werden drauf gerendert
+void drawStack() // 16 layer auf jedem layer sollte nur eine textur sein, fängt niedrig an höhere werden drauf gerendert
 {
   for(int i=0; i<layers; i++)
   {
     if(!whiteList[i].empty)
-    drawNoise(whiteList[i].value,alphaval[i]);
+    {
+      whiteList[i].set(whiteList[i].empty,whiteList[i].seed); //set aktualisiert ausführen, also noise berechnen
+      drawNoise(whiteList[i].value,alphaval[i]);
+    }
     else if(!perlinList[i].empty)
-    drawNoise(perlinList[i].value,alphaval[i]);
+    {
+      perlinList[i].set(perlinList[i].empty,perlinList[i].seed,perlinList[i].rez); //set aktualisiert ausführen, also noise berechnen
+      drawNoise(perlinList[i].value,alphaval[i]);
+    }
     else if(!voronoiList[i].empty)
-    drawNoise(voronoiList[i].value,alphaval[i]);
+    {
+      voronoiList[i].set(voronoiList[i].empty,voronoiList[i].seed,voronoiList[i].pointAmt,voronoiList[i].scatterAmt); //set aktualisiert ausführen, also noise berechnen
+      drawNoise(voronoiList[i].value,alphaval[i]);
+    }
   }
 }
