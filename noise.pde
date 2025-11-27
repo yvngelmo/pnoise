@@ -1,5 +1,8 @@
 int layers = 16;
+int texSelected;
+int valSelected;
 boolean menuHidden = true;
+
 //arrays für noise types
 whiteNoise[] whiteList;
 perlinNoise[] perlinList;
@@ -13,7 +16,7 @@ void setup()
   pixelDensity(1);
   fill(0);
   noFill();
-  strokeWeight(2);
+  strokeWeight(1);
 
   PFont courier;
   courier = loadFont("CourierNewPS-BoldMT-16.vlw");
@@ -23,6 +26,8 @@ void setup()
   perlinList = new perlinNoise[layers];
   voronoiList = new voronoiNoise[layers];
   alphaval = new int[layers];
+  
+  
   
   //init empty stacks
   for(int i=0; i<layers; i++)
@@ -42,7 +47,12 @@ void setup()
 
 void draw()
 {
-  println(mouseY);
+  
+}
+
+void mousePressed()
+{
+  selectionMatrix();
 }
 
 void keyPressed()
