@@ -75,8 +75,8 @@ void drawNoiseStack3d()
     
     for (int x=0; x<width; x+=step)
     {
-      vertex(x,y,0.1*col[x][y]);
-      vertex(x,y+step,0.1*col[x][y+step]); //immer linie nach unten von links nach rechts für jede row referencen
+      vertex(x,y,0.5*col[x][y]);
+      vertex(x,y+step,0.5*col[x][y+step]); //immer linie nach unten von links nach rechts für jede row referencen
     }
     
     endShape();
