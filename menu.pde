@@ -17,10 +17,10 @@ void drawMenu()
     content(i);
     
     fill(255);
-    rect(0,height-25,668,24);
+    rect(0,height-25,748,24);
     
     fill(0);
-    text("change value using corresponding cell with LMB / RMB, hide menu[H]", 6,height-8);
+    text("change value using corresponding cell with LMB/RMB, view [V], hide menu[H]", 6,height-8);
   }
 }
 

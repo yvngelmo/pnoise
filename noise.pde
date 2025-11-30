@@ -3,6 +3,8 @@ int layers = 16;
 int texSelected;
 int valSelected;
 boolean menuHidden = true;
+boolean view3d = false;
+float rotate = 0;
 
 //arrays für noise types
 whiteNoise[] whiteList;
@@ -19,7 +21,7 @@ float[][] col;
 void setup()
 { 
   //setup
-  size(768,768);
+  size(768,768,P3D);
   pixelDensity(1);
   strokeWeight(1);
 
@@ -48,8 +50,9 @@ void setup()
     voronoiList[i] = new voronoiNoise(true,0,10,30);
   }
   //first frame
-  background(255);
-  calcNoiseStackDraw();
+  background(0);
+  calcNoiseStack();
+  drawNoiseStack();
   drawMenu();
 }
 
@@ -59,20 +62,35 @@ void mousePressed()
   if(!menuHidden) selectionMatrix(); //gehoverten wert verändern
   
   //update frame
-  background(255);
-  calcNoiseStackDraw();
+  background(0);
+  calcNoiseStack();
+  if(!view3d)drawNoiseStack();
+  else drawNoiseStack3d();
   drawMenu();
 }
 
 void keyPressed()
 {
   if(key=='h') menuHidden=!menuHidden; //menu show/hide
+  else if(key=='v') view3d=!view3d; //swap view 3d/2d
   
   //update frame
-  background(255);
-  calcNoiseStackDraw();
+  background(0);
+  calcNoiseStack();
+  if(!view3d)drawNoiseStack();
+  else drawNoiseStack3d();
   drawMenu();
 }
 
 void draw()
-{}
+{
+  if(view3d) 
+  {
+    background(0);
+    
+    drawNoiseStack3d();
+    rotate+=0.5;
+    
+    drawMenu();
+  }
+}
